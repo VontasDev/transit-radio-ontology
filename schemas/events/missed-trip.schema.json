@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/missed-trip.schema.json",
+  "title": "MissedTrip",
+  "description": "A scheduled Trip that did not run (or ran partially enough to count as missed under the agency's rulebook). Primitive behind SORTA staffing-driven missed-trip.",
+  "type": "object",
+  "required": ["type", "agencyId", "tripId", "serviceDate", "reasonClass", "detectedAt"],
+  "properties": {
+    "type": { "const": "MissedTrip" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "tripId": { "type": "string", "pattern": "^trip:.+$" },
+    "serviceDate": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "reasonClass": {
+      "enum": ["no-operator", "no-vehicle", "disruption", "weather", "other", "unknown"]
+    },
+    "detectedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

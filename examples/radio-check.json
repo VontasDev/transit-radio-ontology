@@ -1,0 +1,121 @@
+{
+  "$comment": "Radio check at pullout. An operator presses PTT to say 'radio check,' a bot responds. Shows the minimum entity + event set.",
+  "entities": {
+    "agency": {
+      "id": "agency:lbt",
+      "shortCode": "lbt",
+      "name": "Long Beach Transit",
+      "timezone": "America/Los_Angeles",
+      "gtfsAgencyId": "LBT",
+      "defaultLocale": "en-US"
+    },
+    "vehicle": {
+      "id": "vehicle:lbt:2201",
+      "agencyId": "agency:lbt",
+      "fleetNumber": "2201",
+      "mode": "bus",
+      "powertrain": "bev",
+      "batteryCapacityKwh": 440,
+      "deviceId": "device:ORN-884a2f",
+      "fleetClass": "BEB-coast"
+    },
+    "operator": {
+      "id": "operator:lbt:14022",
+      "agencyId": "agency:lbt",
+      "badge": "14022",
+      "hireDate": "2025-02-14",
+      "tenureCohort": "experienced"
+    },
+    "device": {
+      "id": "device:ORN-884a2f",
+      "serial": "ORN-884a2f",
+      "model": "Trucklink TL-7",
+      "vendor": "trucklink",
+      "pttProfile": "single-pulse",
+      "vehicleId": "vehicle:lbt:2201",
+      "firmwareVersion": "3.4.1"
+    },
+    "yard": {
+      "id": "yard:lbt:anaheim",
+      "agencyId": "agency:lbt",
+      "name": "Anaheim Yard",
+      "polygon": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.192, 33.790],
+          [-118.190, 33.790],
+          [-118.190, 33.788],
+          [-118.192, 33.788],
+          [-118.192, 33.790]
+        ]]
+      },
+      "capacity": 180
+    },
+    "group": {
+      "id": "group:lbt:anaheim-yard",
+      "agencyId": "agency:lbt",
+      "name": "Anaheim Yard",
+      "tier": "routine",
+      "members": ["operator:lbt:14022", "bot:lbt:radio-check", "dispatcher:lbt:d04"],
+      "scopedTo": ["yard:lbt:anaheim"]
+    },
+    "bot": {
+      "id": "bot:lbt:radio-check",
+      "agencyId": "agency:lbt",
+      "name": "Radio Check Bot",
+      "capabilities": ["respond-to-radio-check", "classify-intent"],
+      "escalationContacts": ["dispatcher:lbt:d04"]
+    }
+  },
+  "events": [
+    {
+      "type": "LoginEvent",
+      "occurredAt": "2026-11-09T13:40:00Z",
+      "agencyId": "agency:lbt",
+      "operatorId": "operator:lbt:14022",
+      "vehicleId": "vehicle:lbt:2201",
+      "tripId": "trip:lbt:94-am-01:2026-11-09",
+      "blockId": "B-94-AM",
+      "yardId": "yard:lbt:anaheim",
+      "location": { "type": "Point", "coordinates": [-118.191, 33.789] }
+    },
+    {
+      "type": "PTTEvent",
+      "agencyId": "agency:lbt",
+      "speakerId": "operator:lbt:14022",
+      "groupId": "group:lbt:anaheim-yard",
+      "deviceId": "device:ORN-884a2f",
+      "pressedAt": "2026-11-09T13:41:12Z",
+      "releasedAt": "2026-11-09T13:41:14Z",
+      "durationMs": 2000,
+      "latchApplied": true,
+      "transmissionId": "tx-20261109-134112-ORN884a2f"
+    },
+    {
+      "type": "Transmission",
+      "pttEventId": "tx-20261109-134112-ORN884a2f",
+      "agencyId": "agency:lbt",
+      "audioUri": "s3://orion-tx/lbt/2026-11-09/tx-20261109-134112.ogg",
+      "audioDurationMs": 2000,
+      "transcript": "Anaheim radio check two two zero one",
+      "transcriptionModel": "whisper-large-v3-equivalent",
+      "transcriptionConfidence": 0.97,
+      "classifications": [
+        { "key": "intent", "value": "radio-check", "confidence": 0.99 },
+        { "key": "vehicle-callout", "value": "2201", "confidence": 0.95 }
+      ],
+      "priorityFromClassifier": "routine"
+    },
+    {
+      "type": "PTTEvent",
+      "agencyId": "agency:lbt",
+      "speakerId": "bot:lbt:radio-check",
+      "groupId": "group:lbt:anaheim-yard",
+      "deviceId": "device:bot-radio-check",
+      "pressedAt": "2026-11-09T13:41:16Z",
+      "releasedAt": "2026-11-09T13:41:18Z",
+      "durationMs": 1800,
+      "latchApplied": false
+    }
+  ]
+}

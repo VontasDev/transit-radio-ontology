@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/login-event.schema.json",
+  "title": "LoginEvent",
+  "description": "Operator assumes control of a Vehicle. Starts the operational state the ontology cares about. Primitive behind the LBT tests-at-logon rule.",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "operatorId", "vehicleId"],
+  "properties": {
+    "type": { "const": "LoginEvent" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "operatorId": { "type": "string", "pattern": "^operator:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "tripId": { "type": "string", "pattern": "^trip:.+$" },
+    "blockId": { "type": "string" },
+    "yardId": {
+      "type": "string",
+      "pattern": "^yard:.+$",
+      "description": "If the vehicle is inside a yard polygon at login time."
+    },
+    "location": { "$ref": "../common.schema.json#/$defs/Point" }
+  },
+  "additionalProperties": false
+}

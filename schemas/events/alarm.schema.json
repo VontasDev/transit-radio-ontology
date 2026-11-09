@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/alarm.schema.json",
+  "title": "Alarm",
+  "description": "A non-voice signal from a Vehicle or Device. Distinct from Transmission (voice) and AccidentReport (declared).",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "vehicleId", "alarmType", "severity"],
+  "properties": {
+    "type": { "const": "Alarm" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "alarmType": {
+      "enum": [
+        "low-soc",
+        "overspeed",
+        "door-open-while-moving",
+        "operator-emergency",
+        "device-offline",
+        "stop-request-stuck",
+        "other"
+      ]
+    },
+    "severity": { "enum": ["info", "warn", "critical"] },
+    "location": { "$ref": "../common.schema.json#/$defs/Point" },
+    "insideYard": { "type": "string", "pattern": "^yard:.+$" },
+    "acknowledged": { "type": "boolean", "default": false },
+    "acknowledgedBy": { "type": "string", "pattern": "^dispatcher:.+$" },
+    "acknowledgedAt": { "type": "string", "format": "date-time" },
+    "detail": {
+      "type": "object",
+      "description": "Alarm-type-specific payload (open-ended)."
+    }
+  },
+  "additionalProperties": false
+}

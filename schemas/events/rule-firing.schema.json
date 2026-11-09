@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/rule-firing.schema.json",
+  "title": "RuleFiring",
+  "description": "A Rule evaluated true for an event and took its declared action. Auditable so downstream systems and humans can replay why a tier shifted.",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "ruleId", "triggeringEventType", "action"],
+  "properties": {
+    "type": { "const": "RuleFiring" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "ruleId": { "type": "string", "pattern": "^rule:.+$" },
+    "triggeringEventType": { "type": "string" },
+    "triggeringEventId": { "type": "string" },
+    "action": {
+      "enum": ["tier-shift", "notify", "suppress", "annotate"]
+    },
+    "actionDetail": { "type": "object" }
+  },
+  "additionalProperties": false
+}

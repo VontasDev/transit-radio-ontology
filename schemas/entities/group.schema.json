@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/group.schema.json",
+  "title": "Group",
+  "description": "A PTT talk group. Operators, dispatchers, and bots join. Scoped to routes and/or yards by policy.",
+  "type": "object",
+  "required": ["id", "agencyId", "name", "tier"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^group:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["group:lbt:anaheim-yard", "group:lbt:route-94-ops"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "tier": { "$ref": "../common.schema.json#/$defs/Tier" },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(operator|dispatcher|bot):.+$"
+      }
+    },
+    "scopedTo": {
+      "type": "array",
+      "description": "Routes and yards this group serves by policy. Used for priority-rule scoping.",
+      "items": {
+        "type": "string",
+        "pattern": "^(route|yard):.+$"
+      }
+    }
+  },
+  "additionalProperties": false
+}

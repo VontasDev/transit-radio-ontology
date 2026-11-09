@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/transmission.schema.json",
+  "title": "Transmission",
+  "description": "Audio and derived artifacts of a single PTTEvent. Separated from PTTEvent because audio/transcription/classification are produced by different systems at different times.",
+  "type": "object",
+  "required": ["type", "pttEventId", "agencyId"],
+  "properties": {
+    "type": { "const": "Transmission" },
+    "pttEventId": { "type": "string" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "audioUri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Where the audio is stored. s3://... or https://... depending on deployment."
+    },
+    "audioDurationMs": { "type": "integer", "minimum": 0 },
+    "transcript": { "type": "string" },
+    "transcriptionModel": {
+      "type": "string",
+      "description": "Model id, e.g. 'whisper-large-v3' (subject to Modaxo AI tool approval)."
+    },
+    "transcriptionConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "classifications": {
+      "type": "array",
+      "description": "Structured tags from a downstream classifier.",
+      "items": {
+        "type": "object",
+        "required": ["key", "value"],
+        "properties": {
+          "key": { "type": "string" },
+          "value": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      },
+      "examples": [
+        [
+          { "key": "intent", "value": "radio-check", "confidence": 0.98 },
+          { "key": "sentiment", "value": "neutral", "confidence": 0.9 }
+        ]
+      ]
+    },
+    "priorityFromClassifier": {
+      "$ref": "../common.schema.json#/$defs/Tier"
+    }
+  },
+  "additionalProperties": false
+}

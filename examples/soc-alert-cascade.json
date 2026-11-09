@@ -1,0 +1,46 @@
+{
+  "$comment": "40 pct SOC alert on a BEV, catching a battery issue ~2 hours before the operator would otherwise have called in. Grounded in the LBT finding: 40 pct SOC alert catches 83 pct of battery-related radio calls, median 120 min warning.",
+  "events": [
+    {
+      "type": "PositionUpdate",
+      "occurredAt": "2026-11-09T18:02:00Z",
+      "agencyId": "agency:lbt",
+      "vehicleId": "vehicle:lbt:2201",
+      "lat": 33.772, "lon": -118.155,
+      "speedMps": 8.2, "headingDeg": 90,
+      "tripId": "trip:lbt:94-pm-07:2026-11-09"
+    },
+    {
+      "type": "SOCAlert",
+      "occurredAt": "2026-11-09T18:02:03Z",
+      "agencyId": "agency:lbt",
+      "vehicleId": "vehicle:lbt:2201",
+      "thresholdPct": 40,
+      "currentSocPct": 39.8,
+      "estimatedMinutesRemaining": 118
+    },
+    {
+      "type": "Alarm",
+      "occurredAt": "2026-11-09T18:02:03Z",
+      "agencyId": "agency:lbt",
+      "vehicleId": "vehicle:lbt:2201",
+      "alarmType": "low-soc",
+      "severity": "warn",
+      "location": { "type": "Point", "coordinates": [-118.155, 33.772] },
+      "detail": { "thresholdPct": 40, "currentSocPct": 39.8 }
+    },
+    {
+      "type": "RuleFiring",
+      "occurredAt": "2026-11-09T18:02:03Z",
+      "agencyId": "agency:lbt",
+      "ruleId": "rule:lbt:bev-swap-soc40",
+      "triggeringEventType": "SOCAlert",
+      "triggeringEventId": "soc-alert:lbt:2201:2026-11-09T18:02:03Z",
+      "action": "notify",
+      "actionDetail": {
+        "recipientId": "dispatcher:lbt:d12",
+        "suggestedAction": "schedule-swap-at-yard:lbt:anaheim"
+      }
+    }
+  ]
+}

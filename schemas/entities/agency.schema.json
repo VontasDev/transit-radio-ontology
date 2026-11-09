@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/agency.schema.json",
+  "title": "Agency",
+  "description": "A transit operating organization. Reused from GTFS agency.txt, aligned with Transmodel Operator.",
+  "type": "object",
+  "required": ["id", "shortCode", "name", "timezone"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^agency:[a-z][a-z0-9-]*$",
+      "examples": ["agency:sorta", "agency:lbt", "agency:dl"]
+    },
+    "shortCode": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Lowercase short code used in all other ids (e.g. 'lbt')."
+    },
+    "name": {
+      "type": "string",
+      "description": "Public display name of the agency."
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone (e.g. America/Los_Angeles)."
+    },
+    "gtfsAgencyId": {
+      "type": "string",
+      "description": "Agency id as it appears in the agency's published GTFS feed (may differ from shortCode)."
+    },
+    "defaultLocale": {
+      "type": "string",
+      "description": "BCP 47 locale (e.g. en-US). Default for radio prompts and notifications."
+    },
+    "rulebookRef": {
+      "type": "string",
+      "description": "Reference to the agency's Rule set in this ontology. Opaque to the schema; by convention a rule-id prefix."
+    }
+  },
+  "additionalProperties": false
+}

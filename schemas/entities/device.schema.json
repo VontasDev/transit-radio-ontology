@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/device.schema.json",
+  "title": "Device",
+  "description": "A physical PTT device (radio or mobile). pttProfile is operationally critical: single-pulse mics (Trucklink, RAM, GPSLockbox) need latch semantics.",
+  "type": "object",
+  "required": ["id", "serial", "vendor", "pttProfile"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^device:[^:]+$",
+      "examples": ["device:ORN-884a2f"]
+    },
+    "serial": { "type": "string" },
+    "model": { "type": "string" },
+    "vendor": {
+      "enum": ["trucklink", "ram", "gpslockbox", "jielie", "orion-builtin", "other"]
+    },
+    "pttProfile": {
+      "enum": ["single-pulse", "double-pulse"],
+      "description": "single-pulse: one edge emitted per press, requires latch. double-pulse: press and release both emit edges. See ORION-545."
+    },
+    "vehicleId": {
+      "type": "string",
+      "pattern": "^vehicle:.+$",
+      "description": "Currently assigned vehicle."
+    },
+    "firmwareVersion": { "type": "string" }
+  },
+  "additionalProperties": false
+}

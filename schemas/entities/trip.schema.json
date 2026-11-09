@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/trip.schema.json",
+  "title": "Trip",
+  "description": "A single scheduled traversal of a Route on a specific service date. Extends GTFS trips.txt with a service-date dimension.",
+  "type": "object",
+  "required": ["id", "agencyId", "routeId", "gtfsTripId", "serviceDate", "scheduledStart", "scheduledEnd"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^trip:[a-z][a-z0-9-]*:[^:]+:\\d{4}-\\d{2}-\\d{2}$",
+      "examples": ["trip:lbt:94-am-01:2026-11-09"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "routeId": { "type": "string", "pattern": "^route:.+$" },
+    "gtfsTripId": {
+      "type": "string",
+      "description": "trip_id from the agency's GTFS feed."
+    },
+    "blockId": {
+      "type": "string",
+      "description": "GTFS block_id - the sequence of trips a single Vehicle+Operator pair runs over the day."
+    },
+    "serviceDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Operational service date in the agency's local calendar. May extend past midnight (owl runs)."
+    },
+    "scheduledStart": { "type": "string", "format": "date-time" },
+    "scheduledEnd": { "type": "string", "format": "date-time" },
+    "direction": {
+      "enum": ["inbound", "outbound", "loop", "unknown"],
+      "default": "unknown"
+    },
+    "startYardId": {
+      "type": "string",
+      "pattern": "^yard:.+$",
+      "description": "Yard the trip is scheduled to pull out from."
+    },
+    "endYardId": {
+      "type": "string",
+      "pattern": "^yard:.+$"
+    }
+  },
+  "additionalProperties": false
+}

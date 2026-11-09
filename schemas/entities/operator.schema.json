@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/operator.schema.json",
+  "title": "Operator",
+  "description": "A person licensed to drive a Vehicle. Modeled as role+credential. No performance or disciplinary data belongs in this entity.",
+  "type": "object",
+  "required": ["id", "agencyId", "badge"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^operator:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["operator:lbt:14022"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "badge": {
+      "type": "string",
+      "description": "Agency-local operator id (opaque). Never log a human name without consent."
+    },
+    "hireDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "tenureCohort": {
+      "enum": ["new-30d", "new-90d", "experienced"],
+      "description": "Derived from hireDate and the agency's cohort definitions. Used only for cohort-level analytics (e.g. new-operator coaching), never for per-person scoring."
+    }
+  },
+  "additionalProperties": false
+}

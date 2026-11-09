@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/late-pullout.schema.json",
+  "title": "LatePullout",
+  "description": "A Trip that started later than its scheduled pullout by more than the agency threshold. Primitive behind the LBT No-Adherence-MDT false-positive finding (53 pct flagged late were actually on time).",
+  "type": "object",
+  "required": ["type", "agencyId", "tripId", "scheduledPullout", "actualPullout", "latenessSeconds"],
+  "properties": {
+    "type": { "const": "LatePullout" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "tripId": { "type": "string", "pattern": "^trip:.+$" },
+    "scheduledPullout": { "type": "string", "format": "date-time" },
+    "actualPullout": { "type": "string", "format": "date-time" },
+    "latenessSeconds": { "type": "integer" },
+    "yardId": { "type": "string", "pattern": "^yard:.+$" },
+    "operatorId": { "type": "string", "pattern": "^operator:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "flaggedBy": {
+      "enum": ["No-Adherence-MDT", "GPS", "dispatcher", "scheduler", "other"]
+    }
+  },
+  "additionalProperties": false
+}

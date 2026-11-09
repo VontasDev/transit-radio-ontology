@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/accident-report.schema.json",
+  "title": "AccidentReport",
+  "description": "A declared accident. Primitive behind the DL case-file finding (0 of 1079 LBT accidents had injury/damage/911/weather fields filled by humans; voice fills the gap).",
+  "type": "object",
+  "required": ["type", "declaredAt", "agencyId", "vehicleId", "operatorId", "location"],
+  "properties": {
+    "type": { "const": "AccidentReport" },
+    "declaredAt": { "type": "string", "format": "date-time" },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Best estimate of the actual event time if different from declaredAt."
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "operatorId": { "type": "string", "pattern": "^operator:.+$" },
+    "tripId": { "type": "string", "pattern": "^trip:.+$" },
+    "location": { "$ref": "../common.schema.json#/$defs/Point" },
+    "severity": {
+      "enum": ["minor", "property-damage", "injury", "serious-injury", "fatality", "unknown"]
+    },
+    "hitAndRun": { "type": "boolean", "default": false },
+    "declaringTransmissionId": { "type": "string" },
+    "preCrashTrailRef": {
+      "type": "string",
+      "description": "Opaque identifier for a saved window (10 min typical) of PositionUpdate events before declaredAt."
+    },
+    "strata": {
+      "type": "object",
+      "description": "The four strata the Resolve DL finding showed are structurally empty in human-filled reports.",
+      "properties": {
+        "injury": { "type": "object" },
+        "damage": { "type": "object" },
+        "nineOneOne": {
+          "type": "object",
+          "properties": {
+            "called": { "type": "boolean" },
+            "atFromCaller": { "type": "string" },
+            "cadId": { "type": "string" }
+          }
+        },
+        "weather": {
+          "type": "object",
+          "properties": {
+            "conditions": { "type": "string" },
+            "source": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

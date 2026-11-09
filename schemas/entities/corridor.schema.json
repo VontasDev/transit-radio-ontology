@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/corridor.schema.json",
+  "title": "Corridor",
+  "description": "A named contiguous street segment where multiple routes converge. The unit of claim behind 'the Anaheim corridor is 3.8x the fleet accident rate.'",
+  "type": "object",
+  "required": ["id", "agencyId", "name", "geometry"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^corridor:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["corridor:lbt:anaheim"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "geometry": {
+      "oneOf": [
+        { "$ref": "../common.schema.json#/$defs/LineString" },
+        {
+          "type": "object",
+          "required": ["type", "coordinates"],
+          "properties": {
+            "type": { "const": "MultiLineString" },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "routesServing": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^route:.+$" }
+    }
+  },
+  "additionalProperties": false
+}

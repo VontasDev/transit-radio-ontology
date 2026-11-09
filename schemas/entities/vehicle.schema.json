@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/vehicle.schema.json",
+  "title": "Vehicle",
+  "description": "An in-service revenue vehicle. Aligned with Transmodel Vehicle; extended for radio/device context.",
+  "type": "object",
+  "required": ["id", "agencyId", "fleetNumber"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^vehicle:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["vehicle:lbt:2201", "vehicle:sorta:1427"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "fleetNumber": {
+      "type": "string",
+      "description": "Agency-local bus number (what the dispatcher says out loud)."
+    },
+    "vin": { "type": "string" },
+    "plate": { "type": "string" },
+    "mode": {
+      "enum": ["bus", "shuttle", "paratransit", "rail", "ferry"],
+      "default": "bus"
+    },
+    "powertrain": {
+      "enum": ["diesel", "hybrid", "cng", "bev", "fuel-cell", "unknown"],
+      "default": "unknown"
+    },
+    "batteryCapacityKwh": {
+      "type": "number",
+      "description": "Nominal battery capacity (BEV only)."
+    },
+    "deviceId": {
+      "type": "string",
+      "description": "Currently assigned Device (radio) id. Changes via DeviceReassigned events.",
+      "pattern": "^device:.+$"
+    },
+    "fleetClass": {
+      "type": "string",
+      "description": "Agency-defined class (e.g. '40ft', '60ft-articulated', 'BEB-coast')."
+    }
+  },
+  "additionalProperties": false
+}

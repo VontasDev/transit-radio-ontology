@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/ptt-event.schema.json",
+  "title": "PTTEvent",
+  "description": "A single press-to-talk cycle. The latchApplied flag is operationally significant for single-pulse devices (ORION-545).",
+  "type": "object",
+  "required": ["type", "agencyId", "speakerId", "groupId", "deviceId", "pressedAt"],
+  "properties": {
+    "type": { "const": "PTTEvent" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "speakerId": {
+      "type": "string",
+      "pattern": "^(operator|dispatcher|bot):.+$"
+    },
+    "groupId": { "type": "string", "pattern": "^group:.+$" },
+    "deviceId": { "type": "string", "pattern": "^device:.+$" },
+    "pressedAt": { "type": "string", "format": "date-time" },
+    "releasedAt": { "type": "string", "format": "date-time" },
+    "durationMs": { "type": "integer", "minimum": 0 },
+    "latchApplied": {
+      "type": "boolean",
+      "description": "True if the device is single-pulse and the server-side latch window (default 500 ms) was used to synthesize the release edge."
+    },
+    "transmissionId": { "type": "string" },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Alias for pressedAt for consistency with other events. Optional."
+    }
+  },
+  "additionalProperties": false
+}

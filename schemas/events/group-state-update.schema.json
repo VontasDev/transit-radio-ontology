@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/group-state-update.schema.json",
+  "title": "GroupStateUpdate",
+  "description": "A Group's membership or state changed. The missing echo of this event is the root cause of the atlas-console 'group buttons stuck' bug (PR #2131).",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "groupId", "change"],
+  "properties": {
+    "type": { "const": "GroupStateUpdate" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "groupId": { "type": "string", "pattern": "^group:.+$" },
+    "change": {
+      "enum": ["join", "leave", "tier-shift", "scope-change"]
+    },
+    "subjectId": {
+      "type": "string",
+      "description": "The thing that changed (for join/leave: operator/dispatcher/bot id; for tier-shift: new tier)."
+    }
+  },
+  "additionalProperties": false
+}

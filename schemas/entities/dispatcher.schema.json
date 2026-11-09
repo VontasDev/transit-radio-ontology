@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/dispatcher.schema.json",
+  "title": "Dispatcher",
+  "description": "A control-room role with authority to dispatch, log incidents, and reassign vehicles.",
+  "type": "object",
+  "required": ["id", "agencyId", "badge"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^dispatcher:[a-z][a-z0-9-]*:[^:]+$"
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "badge": { "type": "string" },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "can-dispatch-console",
+          "can-see-all-messages",
+          "can-override-priority",
+          "can-reassign-vehicle",
+          "can-close-incident"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}

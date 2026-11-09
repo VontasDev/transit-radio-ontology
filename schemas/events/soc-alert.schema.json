@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/soc-alert.schema.json",
+  "title": "SOCAlert",
+  "description": "An EV battery state-of-charge crossed a configured threshold going down. LBT finding: 40 pct SOC alert catches 83 pct of battery-related radio calls with median 120 min warning.",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "vehicleId", "thresholdPct", "currentSocPct"],
+  "properties": {
+    "type": { "const": "SOCAlert" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "thresholdPct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "currentSocPct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "estimatedMinutesRemaining": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": false
+}

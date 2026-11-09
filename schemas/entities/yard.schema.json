@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/yard.schema.json",
+  "title": "Yard",
+  "description": "Physical bus storage/start/end location. The polygon is semantically load-bearing: many priority rules key off 'is the vehicle inside a yard polygon?'",
+  "type": "object",
+  "required": ["id", "agencyId", "name", "polygon"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^yard:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["yard:lbt:anaheim"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "polygon": {
+      "$ref": "../common.schema.json#/$defs/Polygon"
+    },
+    "capacity": {
+      "type": "integer",
+      "description": "Nominal bus parking capacity."
+    },
+    "activeHoursLocal": {
+      "type": "object",
+      "description": "Local-time active windows. Optional and informational.",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+            "end": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }
+          },
+          "required": ["start", "end"]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

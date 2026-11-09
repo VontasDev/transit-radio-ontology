@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/route.schema.json",
+  "title": "Route",
+  "description": "A named service pattern. Direct reuse of GTFS routes.txt.",
+  "type": "object",
+  "required": ["id", "agencyId", "routeShortName"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^route:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["route:lbt:94", "route:sorta:17"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "gtfsRouteId": { "type": "string" },
+    "routeShortName": {
+      "type": "string",
+      "description": "What the dispatcher says ('94', '17', 'Red')."
+    },
+    "routeLongName": { "type": "string" },
+    "routeType": {
+      "type": "integer",
+      "description": "GTFS route_type enum (3 = bus, etc.)."
+    },
+    "corridorsServing": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^corridor:.+$" }
+    }
+  },
+  "additionalProperties": false
+}

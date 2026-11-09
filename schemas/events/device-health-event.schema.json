@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/device-health-event.schema.json",
+  "title": "DeviceHealthEvent",
+  "description": "A PTT device changed health state. Feeds the LBT device-health-score finding (1.97x held-out lift).",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "deviceId", "healthState"],
+  "properties": {
+    "type": { "const": "DeviceHealthEvent" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "deviceId": { "type": "string", "pattern": "^device:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "healthState": {
+      "enum": ["healthy", "degraded", "dropped-pulse", "rebooted", "offline"]
+    },
+    "detail": { "type": "object" }
+  },
+  "additionalProperties": false
+}

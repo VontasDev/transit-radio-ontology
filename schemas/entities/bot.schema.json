@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/bot.schema.json",
+  "title": "Bot",
+  "description": "A non-human member of a Group or Channel. Explicitly separated from Operator so analytics never mix human and bot traffic.",
+  "type": "object",
+  "required": ["id", "agencyId", "name", "capabilities"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^bot:[a-z][a-z0-9-]*:[^:]+$",
+      "examples": ["bot:lbt:code-blue-default", "bot:lbt:radio-check"]
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "respond-to-radio-check",
+          "route-code-blue",
+          "transcribe",
+          "classify-intent",
+          "emergency-escalate",
+          "annotate-group"
+        ]
+      }
+    },
+    "escalationContacts": {
+      "type": "array",
+      "description": "Who the bot pings when it can't handle a request.",
+      "items": {
+        "type": "string",
+        "pattern": "^(dispatcher|operator):.+$"
+      }
+    }
+  },
+  "additionalProperties": false
+}

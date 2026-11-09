@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/rule.schema.json",
+  "title": "Rule",
+  "description": "A declarative priority or routing rule, scoped to an Agency. Grounding: LBT held-out priority-RTT tiering kept all 159 real events and bottomed 164 of 1068 (15.4 pct).",
+  "type": "object",
+  "required": ["id", "agencyId", "name", "when", "then"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^rule:[a-z][a-z0-9-]*:[^:]+$"
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "when": {
+      "type": "object",
+      "description": "Predicate over an incoming event. Interpreter is out of scope for this ontology; JSON-Logic or a SPARQL-like DSL are both reasonable.",
+      "properties": {
+        "dsl": { "enum": ["json-logic", "sparql-select", "custom"] },
+        "expression": {}
+      },
+      "required": ["dsl", "expression"]
+    },
+    "then": {
+      "type": "object",
+      "required": ["action"],
+      "properties": {
+        "action": {
+          "enum": ["tier-shift", "notify", "suppress", "annotate"]
+        },
+        "detail": {
+          "type": "object",
+          "description": "Action-specific payload. For tier-shift: {from, to}. For notify: {recipientId}. For annotate: {tag}."
+        }
+      }
+    },
+    "enabled": { "type": "boolean", "default": true }
+  },
+  "additionalProperties": false
+}

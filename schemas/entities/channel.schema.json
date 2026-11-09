@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/entities/channel.schema.json",
+  "title": "Channel",
+  "description": "A radio channel. A convenience grouping that gates which Groups a device can hear.",
+  "type": "object",
+  "required": ["id", "agencyId", "name"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^channel:[a-z][a-z0-9-]*:[^:]+$"
+    },
+    "agencyId": { "type": "string", "pattern": "^agency:[a-z][a-z0-9-]*$" },
+    "name": { "type": "string" },
+    "groups": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^group:.+$" }
+    }
+  },
+  "additionalProperties": false
+}

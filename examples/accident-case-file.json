@@ -1,0 +1,87 @@
+{
+  "$comment": "An accident declared over radio, with the 10-min pre-crash GPS trail and the four strata (injury/damage/911/weather) that the DL case-file Resolve finding showed are structurally empty when humans fill them.",
+  "entities": {
+    "agency": { "id": "agency:lbt", "shortCode": "lbt", "name": "Long Beach Transit", "timezone": "America/Los_Angeles" },
+    "corridor": {
+      "id": "corridor:lbt:anaheim",
+      "agencyId": "agency:lbt",
+      "name": "Anaheim Street",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-118.188, 33.775],
+          [-118.170, 33.775],
+          [-118.150, 33.775]
+        ]
+      },
+      "routesServing": ["route:lbt:94", "route:lbt:111"]
+    }
+  },
+  "preCrashTrail": {
+    "$comment": "Downsampled; real trail is 1-5s resolution.",
+    "events": [
+      { "type": "PositionUpdate", "occurredAt": "2026-11-09T15:33:07Z", "agencyId": "agency:lbt", "vehicleId": "vehicle:lbt:2201", "lat": 33.775, "lon": -118.188, "speedMps": 11.4, "headingDeg": 90, "tripId": "trip:lbt:94-pm-04:2026-11-09", "onCorridor": ["corridor:lbt:anaheim"] },
+      { "type": "PositionUpdate", "occurredAt": "2026-11-09T15:38:07Z", "agencyId": "agency:lbt", "vehicleId": "vehicle:lbt:2201", "lat": 33.775, "lon": -118.170, "speedMps": 9.8,  "headingDeg": 90, "tripId": "trip:lbt:94-pm-04:2026-11-09", "onCorridor": ["corridor:lbt:anaheim"] },
+      { "type": "PositionUpdate", "occurredAt": "2026-11-09T15:42:52Z", "agencyId": "agency:lbt", "vehicleId": "vehicle:lbt:2201", "lat": 33.775, "lon": -118.1605, "speedMps": 12.1, "headingDeg": 90, "tripId": "trip:lbt:94-pm-04:2026-11-09", "onCorridor": ["corridor:lbt:anaheim"] },
+      { "type": "PositionUpdate", "occurredAt": "2026-11-09T15:43:05Z", "agencyId": "agency:lbt", "vehicleId": "vehicle:lbt:2201", "lat": 33.775, "lon": -118.1601, "speedMps": 1.2,  "headingDeg": 90, "tripId": "trip:lbt:94-pm-04:2026-11-09", "onCorridor": ["corridor:lbt:anaheim"] },
+      { "type": "PositionUpdate", "occurredAt": "2026-11-09T15:43:09Z", "agencyId": "agency:lbt", "vehicleId": "vehicle:lbt:2201", "lat": 33.775, "lon": -118.1601, "speedMps": 0,    "headingDeg": 90, "tripId": "trip:lbt:94-pm-04:2026-11-09", "onCorridor": ["corridor:lbt:anaheim"] }
+    ]
+  },
+  "declaration": [
+    {
+      "type": "PTTEvent",
+      "agencyId": "agency:lbt",
+      "speakerId": "operator:lbt:14022",
+      "groupId": "group:lbt:emergency",
+      "deviceId": "device:ORN-884a2f",
+      "pressedAt": "2026-11-09T15:43:15Z",
+      "releasedAt": "2026-11-09T15:43:19Z",
+      "durationMs": 4000,
+      "latchApplied": true,
+      "transmissionId": "tx-20261109-154315-ORN884a2f"
+    },
+    {
+      "type": "Transmission",
+      "pttEventId": "tx-20261109-154315-ORN884a2f",
+      "agencyId": "agency:lbt",
+      "transcript": "Dispatch 2201, I just hit something, Anaheim and Linden, I need help",
+      "transcriptionConfidence": 0.94,
+      "classifications": [
+        { "key": "intent", "value": "accident-report", "confidence": 0.97 },
+        { "key": "severity-hint", "value": "unknown", "confidence": 0.6 },
+        { "key": "location-callout", "value": "Anaheim and Linden", "confidence": 0.9 }
+      ],
+      "priorityFromClassifier": "emergency"
+    },
+    {
+      "type": "AccidentReport",
+      "declaredAt": "2026-11-09T15:43:19Z",
+      "occurredAt": "2026-11-09T15:43:05Z",
+      "agencyId": "agency:lbt",
+      "vehicleId": "vehicle:lbt:2201",
+      "operatorId": "operator:lbt:14022",
+      "tripId": "trip:lbt:94-pm-04:2026-11-09",
+      "location": { "type": "Point", "coordinates": [-118.1601, 33.775] },
+      "severity": "unknown",
+      "hitAndRun": false,
+      "declaringTransmissionId": "tx-20261109-154315-ORN884a2f",
+      "preCrashTrailRef": "trail:lbt:2201:2026-11-09T15:33-15:43",
+      "strata": {
+        "injury":    { "$comment": "To be filled by voice follow-up; empty in human reports (0 of 1079 LBT accidents)." },
+        "damage":    { "$comment": "To be filled by voice follow-up." },
+        "nineOneOne":{ "called": true, "cadId": "LB-2026-5544" },
+        "weather":   { "conditions": "clear", "source": "noaa-knlx" }
+      }
+    },
+    {
+      "type": "RuleFiring",
+      "occurredAt": "2026-11-09T15:43:19Z",
+      "agencyId": "agency:lbt",
+      "ruleId": "rule:lbt:accident-emergency-tier",
+      "triggeringEventType": "Transmission",
+      "triggeringEventId": "tx-20261109-154315-ORN884a2f",
+      "action": "tier-shift",
+      "actionDetail": { "from": "routine", "to": "emergency" }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.vontas.com/transit-radio/events/position-update.schema.json",
+  "title": "PositionUpdate",
+  "description": "A single GPS fix from a Vehicle. Superset of GTFS-Realtime VehiclePosition with resolved yard/corridor membership.",
+  "type": "object",
+  "required": ["type", "occurredAt", "agencyId", "vehicleId", "lat", "lon"],
+  "properties": {
+    "type": { "const": "PositionUpdate" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "agencyId": { "type": "string", "pattern": "^agency:.+$" },
+    "vehicleId": { "type": "string", "pattern": "^vehicle:.+$" },
+    "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+    "lon": { "type": "number", "minimum": -180, "maximum": 180 },
+    "speedMps": { "type": "number", "minimum": 0 },
+    "headingDeg": { "type": "number", "minimum": 0, "maximum": 360 },
+    "odometerMeters": { "type": "number", "minimum": 0 },
+    "tripId": { "type": "string", "pattern": "^trip:.+$" },
+    "operatorId": { "type": "string", "pattern": "^operator:.+$" },
+    "insideYard": {
+      "type": "string",
+      "pattern": "^yard:.+$",
+      "description": "Resolved yard id if the lat/lon falls inside a yard polygon."
+    },
+    "onCorridor": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^corridor:.+$" }
+    }
+  },
+  "additionalProperties": false
+}
