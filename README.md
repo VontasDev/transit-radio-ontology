@@ -21,8 +21,22 @@ This ontology is the shared noun list that anything built on top of transit voic
 - [docs/03-events.md](docs/03-events.md): The core verbs (PTT press, position update, alarm, accident report, login, missed trip, SOC alert, ...).
 - [docs/04-alignments.md](docs/04-alignments.md): How this maps to GTFS, Transmodel, GeoSPARQL, SOSA.
 - [docs/diagrams/overview.md](docs/diagrams/overview.md): Entity-relationship diagrams.
+- [docs/05-usage.md](docs/05-usage.md): Installing and using the Python package (`transit_radio_ontology`).
 - [schemas/](schemas/): Machine-readable JSON Schema for each entity and event.
 - [examples/](examples/): Worked scenarios (radio check-in, accident case file).
+
+## Usage
+
+The repo ships a small Python package (`transit_radio_ontology`) with typed
+Pydantic models, a JSON Schema validator, a scenario graph loader, a reference
+GTFS mapper, and a CLI:
+
+```
+pip install -e ".[dev]"
+transit-radio-ontology validate examples/radio-check.json
+```
+
+See [docs/05-usage.md](docs/05-usage.md) for the full walkthrough.
 
 ## Status
 
